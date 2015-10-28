@@ -1,6 +1,7 @@
+bills = "data/bills-se.csv"
 sponsors = "data/sponsors-se.csv"
 
-if (!file.exists(sponsors)) {
+if (!file.exists(bills) | !file.exists(sponsors)) {
 
   k = data_frame()
 
@@ -284,11 +285,14 @@ if (!file.exists(sponsors)) {
   table(a$party[ !a$party %in% names(colors) ])
 
   write.csv(a, sponsors, row.names = FALSE)
+  write.csv(b, bills, row.names = FALSE)
 
 }
 
+b = read.csv(bills, stringsAsFactors = FALSE)
 s = read.csv(sponsors, stringsAsFactors = FALSE)
 s$url = paste0("http://senat.cz", s$url)
+s$born = NA # missing variable entirely
 
 # =============================================================================
 # QUALITY CONTROL
@@ -299,8 +303,8 @@ s$url = paste0("http://senat.cz", s$url)
 # - never missing: sex (chr, F/M), nyears (int), url (chr, URL),
 #   party (chr, mapped to colors)
 
-# cat("Missing", sum(is.na(s$born)), "years of birth\n")
-# stopifnot(is.integer(s$born) & nchar(s$born) == 4 | is.na(s$born))
+cat("Missing", sum(is.na(s$born)), "years of birth\n")
+stopifnot(is.integer(s$born) & nchar(s$born) == 4 | is.na(s$born))
 
 cat("Missing", sum(is.na(s$constituency)), "constituencies\n")
 stopifnot(is.character(s$constituency))
@@ -309,6 +313,6 @@ cat("Missing", sum(is.na(s$photo)), "photos\n")
 stopifnot(is.character(s$photo) & grepl("^photos(_\\w{2})?/(.*)\\.\\w{3}", s$photo) | is.na(s$photo))
 
 stopifnot(!is.na(s$sex) & s$sex %in% c("F", "M"))
-# stopifnot(!is.na(s$nyears) & is.integer(s$nyears)) # computed on the fly
+stopifnot(!is.na(s$nyears) & is.integer(s$nyears))
 stopifnot(!is.na(s$url) & grepl("^http(s)?://(.*)", s$url))
 stopifnot(s$party %in% names(colors))

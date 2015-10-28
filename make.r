@@ -63,7 +63,7 @@ source("comm-po.r")  # add committee co-membership
 
 source("data-se.r")  # scrape bills and sponsors
 source("build-se.r") # assemble the networks
-source("comm-se.r")  # add committee co-membership
+# source("comm-se.r")  # add committee co-membership
 
 save(list = ls(pattern = "^(co)?(net|edges|bills)_cz_(po|se)\\d{4}$"),
      file = "data/net_cz.rda")
