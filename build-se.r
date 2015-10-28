@@ -90,7 +90,7 @@ for (ii in unique(b$legislature) %>% sort) {
   n %n% "seats" = meta[ "seats-se" ] %>% as.integer
 
   n %n% "n_cosponsored" = nrow(data)
-  n %n% "n_sponsors" = table(subset(b, session == ii)$n_au)
+  n %n% "n_sponsors" = table(subset(b, legislature == ii)$n_au)
 
   # ===========================================================================
   # VERTEX-LEVEL ATTRIBUTES
