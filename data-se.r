@@ -129,7 +129,8 @@ if (!file.exists(bills) | !file.exists(sponsors)) {
       bill = i,
       aid = html_nodes(f, ".tableModule p")[[1]] %>%
         html_text %>%
-        gsub("Navrhovatel(i|em)\\sj(e|sou)\\s|senátor(ka)?\\s|zástupce\\s((komise|výboru)\\s)?Senátu\\s|\\.$", "", .) %>%
+        gsub("Navrhovatel(i|em)\\sj(e|sou)\\s|senátor(ka)?\\s|zástupce\\s((komise|výboru)\\s)?Senátu\\s|\\.$",
+             "", .) %>%
         strsplit(., ",\\s") %>%
         unlist
     ))
