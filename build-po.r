@@ -91,10 +91,10 @@ for (l in rev(unique(b$legislature))) {
   n %n% "lang" = meta[ "lang" ] %>% as.character
   n %n% "years" = yrs[ as.character(l) ] %>% as.character
   n %n% "legislature" = l %>% as.character
-  n %n% "chamber" = meta[ "ch" ] %>% as.character
-  n %n% "type" = meta[ "type" ] %>% as.character
-  n %n% "ipu" = meta[ "ipu" ] %>% as.integer
-  n %n% "seats" = meta[ "seats" ] %>% as.integer
+  n %n% "chamber" = meta[ "ch-po" ] %>% as.character
+  n %n% "type" = meta[ "type-po" ] %>% as.character
+  n %n% "ipu" = meta[ "ipu-po" ] %>% as.integer
+  n %n% "seats" = meta[ "seats-po" ] %>% as.integer
 
   n %n% "n_cosponsored" = nrow(data)
   n %n% "n_sponsors" = table(filter(b, legislature == l)$n_au)
@@ -159,7 +159,7 @@ for (l in rev(unique(b$legislature))) {
 
   if (plot) {
 
-    save_plot(n, paste0("plots/net_cz", yrs[ as.character(l) ]),
+    save_plot(n, paste0("plots/net_cz_po", yrs[ as.character(l) ]),
               i = colors[ sp[ n %e% "source", "party" ] ],
               j = colors[ sp[ n %e% "target", "party" ] ],
               mode, colors)
@@ -170,18 +170,18 @@ for (l in rev(unique(b$legislature))) {
   # SAVE OBJECTS
   # ============================================================================
 
-  assign(paste0("bills_cz", substr(yrs[ as.character(l) ], 1, 4)), data)
-  assign(paste0("edges_cz", substr(yrs[ as.character(l) ], 1, 4)), edges)
-  assign(paste0("net_cz", substr(yrs[ as.character(l) ], 1, 4)), n)
+  assign(paste0("bills_cz_po", substr(yrs[ as.character(l) ], 1, 4)), data)
+  assign(paste0("edges_cz_po", substr(yrs[ as.character(l) ], 1, 4)), edges)
+  assign(paste0("net_cz_po", substr(yrs[ as.character(l) ], 1, 4)), n)
 
   # ============================================================================
   # SAVE GEXF
   # ============================================================================
 
   if (gexf)
-    save_gexf(n, paste0("net_cz", yrs[ as.character(l) ]), mode, colors)
+    save_gexf(n, paste0("net_cz_po", yrs[ as.character(l) ]), mode, colors)
 
 }
 
 if (gexf)
-  zip("net_cz.zip", dir(pattern = "^net_cz\\d{4}-\\d{4}\\.gexf$"))
+  zip("net_cz_po.zip", dir(pattern = "^net_cz_po\\d{4}-\\d{4}\\.gexf$"))

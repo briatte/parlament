@@ -1,9 +1,6 @@
 root     = "http://www.psp.cz/sqw/"
-bills    = "data/bills.csv"
-sponsors = "data/sponsors.csv"
-yrs = c("1" = "1992-1996", "2" = "1996-1998", "3" = "1998-2002",
-        "4" = "2002-2006", "5" = "2006-2010", "6" = "2010-2013",
-        "7" = "2013-2017")
+bills    = "data/bills-po.csv"
+sponsors = "data/sponsors-po.csv"
 
 # bills
 
@@ -14,7 +11,7 @@ if (!file.exists(bills)) {
   # 7 is the current legislature
   for (i in 2:7) {
     
-    f = paste0("raw/bill-lists/bills-", i, ".html")
+    f = paste0("raw/po/bill-lists/bills-", i, ".html")
     
     if (!file.exists(f))
       download.file(paste0(root, "tisky.sqw?O=", i, "&PT=K&N=1&F=N&D=1,2,16&RA=1000&TN=3"), f,
@@ -31,7 +28,7 @@ if (!file.exists(bills)) {
     
     cat(sprintf("%3.0f", which(l == i)))
     
-    f = paste0("raw/bill-pages/bill-", gsub("(.*)o=(\\d)&T=(\\d+)(.*)", "\\2-\\3", i), ".html")
+    f = paste0("raw/po/bill-pages/bill-", gsub("(.*)o=(\\d)&T=(\\d+)(.*)", "\\2-\\3", i), ".html")
     
     if (!file.exists(f))
       try(download.file(i, f, mode = "wb", quiet = TRUE), silent = TRUE)
@@ -97,7 +94,7 @@ if (length(a)) {
     
     cat(sprintf("%4.0f", which(a == i)))
 
-    file = gsub("(.*)o=(\\d)&id=(\\d+)", "raw/mp-pages/mp-\\2_\\3.html", i)
+    file = gsub("(.*)o=(\\d)&id=(\\d+)", "raw/po/mp-pages/mp-\\2_\\3.html", i)
 
     if (!file.exists(file))
       download.file(i, file, mode = "wb", quiet = TRUE)
@@ -181,7 +178,7 @@ s$mandate = sapply(s$mandate, function(x) {
 
 # download photos
 for (i in unique(s$photo)) {
-  photo = gsub("(.*)/(.*)ps/poslanci/i(.*).jpg", "photos/\\3_\\2.jpg", i)
+  photo = gsub("(.*)/(.*)ps/poslanci/i(.*).jpg", "photos_po/\\3_\\2.jpg", i)
   if (!file.exists(photo) | !file.info(photo)$size) {
     try(download.file(i, photo, mode = "wb", quiet = TRUE), silent = TRUE)
     Sys.sleep(1)

@@ -2,12 +2,12 @@
 
 comm = data_frame()
 
-s = read.csv("data/sponsors.csv", stringsAsFactors = FALSE)
+s = read.csv("data/sponsors-po.csv", stringsAsFactors = FALSE)
 
 # find unique committees
 
 cat("Parsing committees")
-for (i in dir("raw/mp-pages", full.names = TRUE)) {
+for (i in dir("raw/po/mp-pages", full.names = TRUE)) {
   
   h = htmlParse(i)
   
@@ -20,7 +20,7 @@ for (i in dir("raw/mp-pages", full.names = TRUE)) {
   n = n[ k ]
   
   if (length(l))
-    comm = rbind(comm, data_frame(y = gsub("raw/mp-pages/mp-(\\d)_(.*)", "\\1", i), n, l))
+    comm = rbind(comm, data_frame(y = gsub("raw/po/mp-pages/mp-(\\d)_(.*)", "\\1", i), n, l))
   
 }
 
@@ -29,11 +29,11 @@ comm = unique(comm) %>%
 
 cat(":", nrow(comm), "unique categories\n")
 
-for (i in dir("raw/mp-pages", full.names = TRUE)) {
+for (i in dir("raw/po/mp-pages", full.names = TRUE)) {
   
   h = htmlParse(i)
   l = xpathSApply(h, "//a[contains(@href, 'fsnem')]/@href")
-  comm[, gsub("raw/mp-pages/mp-(\\d)_(\\d+)\\.html", "\\1_\\2", i) ] = as.numeric(comm$l %in% l)
+  comm[, gsub("raw/po/mp-pages/mp-(\\d)_(\\d+)\\.html", "\\1_\\2", i) ] = as.numeric(comm$l %in% l)
   
 }
 
@@ -44,10 +44,10 @@ stopifnot(names(comm[, -1:-3]) %in% s$uid)
 
 names(comm)[1:3] = c("legislature", "committee", "url")
 write.csv(cbind(comm[, 1:3 ], members = rowSums(comm[, -1:-3 ])), 
-          "data/committees.csv", row.names = FALSE)
+          "data/committees-po.csv", row.names = FALSE)
 
 # assign co-memberships to networks
-for (i in ls(pattern = "^net_cz\\d{4}")) {
+for (i in ls(pattern = "^net_cz_po\\d{4}")) {
   
   cat("Legislature", i)
   
@@ -55,7 +55,8 @@ for (i in ls(pattern = "^net_cz\\d{4}")) {
   
   sp = network.vertex.names(n)
   names(sp) = n %v% "url"
-  names(sp) = gsub("http://www.psp.cz/sqw/detail.sqw\\?o=", "", gsub("&id=", "_", names(sp)))
+  names(sp) = gsub("http://www.psp.cz/sqw/detail.sqw\\?o=", "",
+                   gsub("&id=", "_", names(sp)))
   
   stopifnot(names(sp) %in% colnames(comm[, -c(1, 3) ]))
   

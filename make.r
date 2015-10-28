@@ -9,18 +9,19 @@ source("parties.r")
 dir.create("data"  , showWarnings = FALSE)
 dir.create("plots" , showWarnings = FALSE)
 
-if (file.exists("photos.zip"))
-  unzip("photos.zip")
+if (file.exists("photos_po.zip"))
+  unzip("photos_po.zip")
 
-dir.create("photos", showWarnings = FALSE)
+dir.create("photos_po", showWarnings = FALSE)
 
 if (file.exists("raw.zip"))
   unzip("raw.zip")
 
-dir.create("raw"            , showWarnings = FALSE)
-dir.create("raw/bill-lists" , showWarnings = FALSE)
-dir.create("raw/bill-pages" , showWarnings = FALSE)
-dir.create("raw/mp-pages"   , showWarnings = FALSE)
+dir.create("raw"               , showWarnings = FALSE)
+dir.create("raw/po"            , showWarnings = FALSE)
+dir.create("raw/po/bill-lists" , showWarnings = FALSE)
+dir.create("raw/po/bill-pages" , showWarnings = FALSE)
+dir.create("raw/po/mp-pages"   , showWarnings = FALSE)
 
 # parameters
 
@@ -30,19 +31,23 @@ mode = "fruchtermanreingold"
 meta = c(
   "cty" = "Czech Republic",
   "lang" = "cs", # Wikipedia language for chamber and constituencies
-  "ch" = "Poslanecká_sněmovna_Parlamentu_České_republiky",
-  "type" = "Unicameral",
-  "ipu" = 2083,
-  "seats" = 200
+  "ch-po" = "Poslanecká_sněmovna_Parlamentu_České_republiky",
+  "type-po" = "Unicameral",
+  "ipu-po" = 2083,
+  "seats-po" = 200
 )
 
-# build routine
+yrs = c("1" = "1992-1996", "2" = "1996-1998", "3" = "1998-2002",
+        "4" = "2002-2006", "5" = "2006-2010", "6" = "2010-2013",
+        "7" = "2013-2017")
 
-source("data.r")  # scrape bills and sponsors
-source("build.r") # assemble the networks
-source("comm.r")  # add committee co-membership
+# build routine (1): lower chamber
 
-save(list = ls(pattern = "^(co)?(net|edges|bills)_cz\\d{4}$"),
+source("data-po.r")  # scrape bills and sponsors
+source("build-po.r") # assemble the networks
+source("comm-po.r")  # add committee co-membership
+
+save(list = ls(pattern = "^(co)?(net|edges|bills)_cz_(po|se)\\d{4}$"),
      file = "data/net_cz.rda")
 
 # have a nice day
