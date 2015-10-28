@@ -59,8 +59,6 @@ Note: the chamber presidents of legislatures 6 (2010-2013) and 7 (2013-207) have
 
 Upper chamber:
 
-uid	url	name	sex	constituency	party	mandate	photo	legislature	nyears
-
 - `uid` -- unique identifier (int)
 - `url` -- full profile URL (contains last-updated time indication)
 - `name` -- sponsor name
