@@ -1,4 +1,4 @@
-This repository contains code to build cosponsorship networks from bills passed in the [lower](http://www.psp.cz/) and [upper]() chambers of the Czech Parliament.
+This repository contains code to build cosponsorship networks from bills passed in the [lower](http://www.psp.cz/) and [upper](http://senat.cz/) chambers of the Czech Parliament.
 
 - [interactive demo](http://f.briatte.org/parlviz/parlamentu/)
 - [static plots](http://f.briatte.org/parlviz/parlamentu/plots.html)
