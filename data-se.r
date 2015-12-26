@@ -37,8 +37,7 @@ if (!file.exists(bills) | !file.exists(sponsors)) {
 
     f = gsub("(.*)dni=(.*)&lng=cz&par_3=(\\d+)", "raw/se/senator-pages/sen-\\3-\\2.html", i)
     if (!file.exists(f)) {
-      download.file(paste0("http://senat.cz", i),
-                    f, mode = "wb", quiet = TRUE)
+      download.file(paste0("http://senat.cz", i), f, mode = "wb", quiet = TRUE)
     }
     f = read_html(f)
 

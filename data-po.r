@@ -201,6 +201,9 @@ s$name = gsub("\u008a", "Š", s$name, fixed = TRUE)
 s$name = gsub("\u009e", "ž", s$name, fixed = TRUE)
 s$name = gsub("\u008e", "Ž", s$name, fixed = TRUE)
 
+# set birth years to numeric
+s$born = as.integer(s$born)
+
 # rightwing coalition in legislature 4, also contains a few US-DEU and former independents
 s$party[ s$party == "K" ] = "KDU"
 
